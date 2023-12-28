@@ -1,0 +1,16 @@
+const Router=require("express")
+const {Home,signup,usersignup,userlogin, google, reset, profile}=require("../controllers/user.controller")
+const passport=require("passport")
+const isAuth=require("../middlewares/isauth")
+const router=Router()
+
+router.get("/Home",Home)
+router.get("/signup",usersignup)
+router.post("/signup",signup)
+router.get("/login",userlogin)
+router.post("/login",passport.authenticate("local",{successRedirect:"/Home",failureRedirect:"/login"}))
+router.get('/google',passport.authenticate('google',{scope : ['profile']}))
+router.get('/auth/google',google)
+router.post("/reset",reset)
+router.get("/profile",isAuth,profile)
+module.exports=router
